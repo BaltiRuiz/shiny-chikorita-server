@@ -1,0 +1,35 @@
+{
+    "name": "shiny-chikorita-server",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Backend side of the Shiny-Chikorita application",
+    "author": "Balti Ruiz",
+    "license": "ISC",
+    "scripts": {
+        "start": "npx ts-node src/server.ts",
+        "test": "jest --config jest.config.json"
+    },
+    "dependencies": {
+        "@types/bcrypt": "^5.0.0",
+        "@types/express": "^4.17.13",
+        "@types/jest": "^27.4.1",
+        "@types/jsonwebtoken": "^8.5.8",
+        "@types/lodash": "^4.14.181",
+        "@types/node": "^17.0.23",
+        "@types/pg": "^8.6.5",
+        "awilix": "^7.0.1",
+        "axios": "^0.26.1",
+        "bcrypt": "^5.0.1",
+        "body-parser": "^1.19.2",
+        "dotenv": "^16.0.0",
+        "eslint": "^8.12.0",
+        "express": "^4.17.3",
+        "jest": "^27.5.1",
+        "jsonwebtoken": "^8.5.1",
+        "lodash": "^4.17.21",
+        "pg": "^8.7.3",
+        "sequelize": "^6.17.0",
+        "ts-jest": "^27.1.4",
+        "ts-node": "^10.7.0"
+    }
+}
