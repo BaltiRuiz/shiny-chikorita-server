@@ -10,6 +10,14 @@
             "sourceMaps": true
         },
         {
+            "name": "Debug Shiny-Chikorita (Nodemon)",
+            "request": "launch",
+            "type": "node",
+            "program": "src/server.ts",
+            "runtimeExecutable": "${workspaceFolder}\\node_modules\\.bin\\nodemon",
+            "sourceMaps": true
+        },
+        {
             "name": "Test files",
             "request": "launch",
             "type": "node",
