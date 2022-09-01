@@ -5,12 +5,14 @@ import { DependencyType, DIKeys } from "./ioc.enums";
 import { IDependency } from "./ioc.interfaces";
 
 import { PokemonInteractor } from "../interactors/pokemon.interactors";
+import { TypeInteractor } from "../interactors/type.interactors";
+import { AbilityInteractor } from "../interactors/ability.interactors";
 
-import { PokemonRepository } from "../adapters/pokemon.adapters";
-import { SpeciesRepository } from "../adapters/species.adapters";
-import { AbilityRepository } from "../adapters/ability.adapters";
+import { ResourceRepository } from "../adapters/resource.adapters";
 
-import { MapperService } from "../utils/mapperService";
+import { PokemonMapperService } from "../mappings/pokemon.mapperService";
+import { TypeMapperService } from "../mappings/type.mapperService";
+import { AbilityMapperService } from "../mappings/ability.mapperService";
 
 /**
  * IoC definition
@@ -29,26 +31,38 @@ export const IoCConfiguration: IDependency[] = [
         type: DependencyType.ClassOrService,
     },
     {
-        name: DIKeys.PokemonRepository,
-        instance: PokemonRepository,
+        name: DIKeys.TypeInteractor,
+        instance: TypeInteractor,
         lifetime: Lifetime.SINGLETON,
         type: DependencyType.ClassOrService,
     },
     {
-        name: DIKeys.SpeciesRepository,
-        instance: SpeciesRepository,
+        name: DIKeys.AbilityInteractor,
+        instance: AbilityInteractor,
         lifetime: Lifetime.SINGLETON,
         type: DependencyType.ClassOrService,
     },
     {
-        name: DIKeys.AbilityRepository,
-        instance: AbilityRepository,
+        name: DIKeys.ResourceRepository,
+        instance: ResourceRepository,
         lifetime: Lifetime.SINGLETON,
         type: DependencyType.ClassOrService,
     },
     {
-        name: DIKeys.MapperService,
-        instance: MapperService,
+        name: DIKeys.PokemonMapperService,
+        instance: PokemonMapperService,
+        lifetime: Lifetime.SINGLETON,
+        type: DependencyType.ClassOrService,
+    },
+    {
+        name: DIKeys.TypeMapperService,
+        instance: TypeMapperService,
+        lifetime: Lifetime.SINGLETON,
+        type: DependencyType.ClassOrService,
+    },
+    {
+        name: DIKeys.AbilityMapperService,
+        instance: AbilityMapperService,
         lifetime: Lifetime.SINGLETON,
         type: DependencyType.ClassOrService,
     },

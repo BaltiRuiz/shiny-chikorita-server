@@ -1,7 +1,10 @@
+import { MapperService } from "./mapperService";
+
 import { IPokemonData, IPokemonSprites } from "../interfaces/pokemon.interfaces";
 
 import { Languages } from "../enums/languages.enums";
-import { PokemonGeneration, PokemonStat } from "../enums/pokemon.enums";
+import { PokemonGeneration } from "../enums/pokemon.enums";
+import { PokemonStat } from "../enums/pokemon.enums";
 
 const pokemonGamesMap: Map<PokemonGeneration, string> = new Map<PokemonGeneration, string>([
     [PokemonGeneration.GenerationI, "yellow"],
@@ -11,15 +14,10 @@ const pokemonGamesMap: Map<PokemonGeneration, string> = new Map<PokemonGeneratio
     [PokemonGeneration.GenerationV, "black-white"],
     [PokemonGeneration.GenerationVI, "x-y"],
     [PokemonGeneration.GenerationVII, "ultra-sun-ultra-moon"],
+    [PokemonGeneration.GenerationVIII, "icons"],
 ]);
 
-export class MapperService {
-    private getEntryByLanguage(entries: any[], lang: Languages, property: string): string {
-        const entry = entries.find((entry: any) => entry.language.name === lang);
-
-        return entry ? entry[property] : "Not found for this language";
-    }
-
+export class PokemonMapperService extends MapperService {
     private getBaseStatByName(stats: any[], statName: PokemonStat): number {
         const stat = stats.find((stat: any) => stat.stat.name === statName);
 
@@ -70,26 +68,6 @@ export class MapperService {
         });
 
         return spritesMap;
-    }
-
-    public mapErrorAPIToPokemonError(status: number, pokemonID: string): string {
-        let message: string;
-
-        switch (status) {
-            case 200:
-                message = `Pokemon '${pokemonID}' retrieved successfully`;
-                break;
-            case 404:
-                message = `Pokemon '${pokemonID}' does not exist`;
-                break;
-            case 500:
-                message = `There was an internal error while retrieving Pokemon '${pokemonID}'`;
-                break;
-            default:
-                message = `Undefined error while retrieving Pokemon '${pokemonID}'`;                
-        }
-
-        return message;
     }
 
     public mapPokemonAPIToPokemonData(pokemonAPIData: any, speciesAPIData: any, abilitiesAPIData: any): IPokemonData {

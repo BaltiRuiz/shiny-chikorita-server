@@ -80,7 +80,7 @@ export class IoCBootstrapper {
         if (this.containerItems.length === 0) {
             throw new Error("IoC container was initialised with no items");
         } else {
-            console.log(`IoC container has ${this.containerItems.length} items`);
+            console.log(`IoC container has ${this.containerItems.length} item(s)`);
         }
     }
 

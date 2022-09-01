@@ -8,6 +8,7 @@ const dbConfig = {
 }
 
 const pool = new pg.Pool(dbConfig);
+
 const client = new pg.Client(
     {
         ...dbConfig,

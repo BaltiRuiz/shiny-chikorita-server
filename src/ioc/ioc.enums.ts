@@ -9,11 +9,13 @@ export enum DIKeys {
     sequelizeInstance = "sequelizeInstance",
     tableInstances = "tableInstances",
 
-    PokemonInteractor = "PokemonInteractor",
+    PokemonInteractor = "pokemon",
+    TypeInteractor = "type",
+    AbilityInteractor = "ability",
 
-    PokemonRepository = "PokemonRepository",
-    SpeciesRepository = "SpeciesRepository",
-    AbilityRepository = "AbilityRepository",
+    ResourceRepository = "ResourceRepository",
 
-    MapperService = "MapperService",
+    PokemonMapperService = "PokemonMapperService",
+    TypeMapperService = "TypeMapperService",
+    AbilityMapperService = "AbilityMapperService",
 }

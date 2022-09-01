@@ -36,4 +36,5 @@ export enum PokemonGeneration {
     GenerationV = "generation-v",
     GenerationVI = "generation-vi",
     GenerationVII = "generation-vii",
+    GenerationVIII = "generation-viii",
 }

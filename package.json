@@ -7,11 +7,11 @@
     "license": "ISC",
     "scripts": {
         "start": "npx ts-node src/server.ts",
-        "createDatabase": "npx ts-node src/startup/databaseStartup.ts",
+        "create-database-pg": "npx ts-node src/startup/database/postgres.databaseStartup.ts",
+        "create-database-mongodb": "npx ts-node src/startup/database/mongodb.databaseStartup.ts",
         "test": "jest --config jest.config.json"
     },
     "dependencies": {
-        "@types/bcrypt": "^5.0.0",
         "@types/cors": "^2.8.12",
         "@types/express": "^4.17.13",
         "@types/jest": "^28.1.7",
@@ -21,7 +21,6 @@
         "@types/pg": "^8.6.5",
         "awilix": "^7.0.1",
         "axios": "^0.27.2",
-        "bcrypt": "^5.0.1",
         "body-parser": "^1.19.2",
         "cors": "^2.8.5",
         "dotenv": "^16.0.0",
@@ -30,6 +29,7 @@
         "jest": "^28.1.3",
         "jsonwebtoken": "^8.5.1",
         "lodash": "^4.17.21",
+        "mongodb": "^4.9.0",
         "nodemon": "^2.0.19",
         "pg": "^8.7.3",
         "sequelize": "^6.17.0",

@@ -1,48 +1,75 @@
-import { IAbilityRepository } from "../ports/ability.ports";
-import { IPokemonRepository } from "../ports/pokemon.ports";
-import { ISpeciesRepository } from "../ports/species.ports";
+import { PokemonMapperService } from "../mappings/pokemon.mapperService";
 
-import { MapperService } from "../utils/mapperService";
+import { ResourceInteractor } from "./resource.interactors";
+
+import { APIResource } from "../enums/api.enums";
+
+import { IResourceRepository } from "../ports/resource.ports";
 
 /**
  * Manages Pokemon information
  * 
  * @class PokemonInteractor
  */
-export class PokemonInteractor {
+export class PokemonInteractor extends ResourceInteractor {
     /**
      * Creates an instance of PokemonInteractor
      *
-     * @param {IPokemonRepository} PokemonRepository
+     * @param {IResourceRepository} ResourceRepository
+     * @param {PokemonMapperService} PokemonMapperService
      * 
      * @memberof PokemonInteractor
      */
     constructor(
-        private PokemonRepository: IPokemonRepository,
-        private SpeciesRepository: ISpeciesRepository,
-        private AbilityRepository: IAbilityRepository,
-        private MapperService: MapperService,
-    ) {}
+        private ResourceRepository: IResourceRepository,
+        private PokemonMapperService: PokemonMapperService,
+    ) {
+        super(ResourceRepository, PokemonMapperService);
+    }
+
+    /**
+     * Retrieves detailed information about the abilities from a pokemon
+     *
+     * @param {*[]} abilitiesMetadata
+     *
+     * @memberof PokemonInteractor
+     */
+    private async getAbilitiesDetails(abilitiesMetadata: any[]) {
+        const firstAbilityAPIData = await this.ResourceRepository.getResourceByID(APIResource.Ability, abilitiesMetadata[0].ability.name);
+
+        let secondAbilityAPIData = undefined;
+        let thirdAbilityAPIData = undefined;
+
+        if (abilitiesMetadata[1]) {
+            secondAbilityAPIData = await this.ResourceRepository.getResourceByID(APIResource.Ability, abilitiesMetadata[1].ability.name);
+        }
+
+        if (abilitiesMetadata[2]) {
+            thirdAbilityAPIData = await this.ResourceRepository.getResourceByID(APIResource.Ability, abilitiesMetadata[2].ability.name);
+        }
+
+        return { firstAbilityAPIData, secondAbilityAPIData, thirdAbilityAPIData };
+    }
 
     /**
      * Retrieves a specific pokemon given its corresponding ID or name
      *
-     * @param {number} pokemonID
+     * @param {string} pokemonID
      * 
      * @memberof PokemonInteractor
      */
-    public async getPokemon(pokemonID: string) {
+    public async getResource(pokemonID: string) {
         console.log(`Retrieving Pokemon with name or ID: ${pokemonID}`);
 
         let pokemonData = null;
         let statusCode = 200;
 
         try {
-            const pokemonAPIData = await this.PokemonRepository.getPokemonByID(pokemonID);
-            const speciesAPIData = await this.SpeciesRepository.getSpeciesByPokemonName(pokemonAPIData.name);
-            const abilitiesAPIData = await this.AbilityRepository.getAbilitiesDetails(pokemonAPIData.abilities);
+            const pokemonAPIData = await this.ResourceRepository.getResourceByID(APIResource.Pokemon, pokemonID);
+            const speciesAPIData = await this.ResourceRepository.getResourceByID(APIResource.Species, pokemonAPIData.name);
+            const abilitiesAPIData = await this.getAbilitiesDetails(pokemonAPIData.abilities);
 
-            pokemonData = this.MapperService.mapPokemonAPIToPokemonData(pokemonAPIData, speciesAPIData, abilitiesAPIData);
+            pokemonData = this.PokemonMapperService.mapPokemonAPIToPokemonData(pokemonAPIData, speciesAPIData, abilitiesAPIData);
         } catch (error) {
             statusCode = error.response.status;
         }
@@ -51,7 +78,7 @@ export class PokemonInteractor {
             statusCode,
             result: {
                 data: pokemonData,
-                message: this.MapperService.mapErrorAPIToPokemonError(statusCode, pokemonID),
+                message: this.PokemonMapperService.mapErrorAPIToResourceError(statusCode, APIResource.Pokemon, pokemonID),
             },
         };
     }
