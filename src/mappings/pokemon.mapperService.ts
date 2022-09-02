@@ -82,6 +82,10 @@ export class PokemonMapperService extends MapperService {
             },
             height: pokemonAPIData.height / 10,
             weight: pokemonAPIData.weight / 10,
+            eggGroups: {
+                firstEggGroup: speciesAPIData.egg_groups[0].name,
+                secondEggGroup: speciesAPIData.egg_groups[1] ? speciesAPIData.egg_groups[1].name : undefined,
+            },
             abilities: {
                 firstAbility: {
                     name: abilitiesAPIData.firstAbilityAPIData.name,

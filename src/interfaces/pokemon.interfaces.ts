@@ -1,4 +1,4 @@
-import { PokemonType } from "../enums/pokemon.enums";
+import { PokemonEggGroup, PokemonType } from "../enums/pokemon.enums";
 
 export interface IPokemonAbility {
     name: string;
@@ -27,6 +27,10 @@ export interface IPokemonData {
     },
     height: number;
     weight: number;
+    eggGroups: {
+        firstEggGroup: PokemonEggGroup;
+        secondEggGroup?: PokemonEggGroup;
+    },
     abilities: {
         firstAbility: IPokemonAbility;
         secondAbility?: IPokemonAbility;

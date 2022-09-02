@@ -38,3 +38,21 @@ export enum PokemonGeneration {
     GenerationVII = "generation-vii",
     GenerationVIII = "generation-viii",
 }
+
+export enum PokemonEggGroup {
+    Monster = "monster",
+    Water1 = "water1",
+    Water2 = "water2",
+    Water3 = "water3",
+    Bug = "bug",
+    Flying = "flying",
+    Ground = "ground",
+    Fairy = "fairy",
+    Plant = "plant",
+    Humanshape = "humanshape",
+    Mineral = "mineral",
+    Indeterminate = "indeterminate",
+    Ditto = "ditto",
+    Dragon = "dragon",
+    NoEggs = "no-eggs",
+}
