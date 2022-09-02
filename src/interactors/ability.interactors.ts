@@ -10,6 +10,7 @@ export class AbilityInteractor extends ResourceInteractor {
     /**
      * Creates an instance of AbilityInteractor
      *
+     * @param {IResourceRepository} ResourceRepository
      * @param {AbilityMapperService} AbilityMapperService
      * 
      * @memberof AbilityInteractor
@@ -55,9 +56,9 @@ export class AbilityInteractor extends ResourceInteractor {
             const abilityAPIData = await this.ResourceRepository.getResourceByID(APIResource.Ability, abilityID);
 
             const relatedPokemons = abilityAPIData.pokemon.map((pokemon: any) => pokemon.pokemon.name);
-            const pokemonsAPIData = await this.getPokemonsDetails(relatedPokemons);
+            const pokemonsDetails = await this.getPokemonsDetails(relatedPokemons);
 
-            abilityData = this.AbilityMapperService.mapAbilityAPIToAbilityData(abilityAPIData, pokemonsAPIData);
+            abilityData = this.AbilityMapperService.mapAbilityAPIToAbilityData(abilityAPIData, pokemonsDetails);
         } catch (error) {
             statusCode = error.response.status;
         }

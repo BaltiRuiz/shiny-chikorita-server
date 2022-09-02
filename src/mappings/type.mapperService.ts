@@ -28,7 +28,7 @@ export class TypeMapperService extends MapperService {
         }
     }
 
-    public mapTypeAPIToTypeData(typeData: any, pokemonsAPIData: ITypePokemon[], movesAPIData: ITypeMove[]): ITypeData {
+    public mapTypeAPIToTypeData(typeData: any, pokemonsDetails: ITypePokemon[], movesDetails: ITypeMove[]): ITypeData {
         return {
             id: typeData.id,
             name: typeData.name,
@@ -40,8 +40,8 @@ export class TypeMapperService extends MapperService {
                 noDamageFrom: this.damageRelationAPIToTypeDamageRelation(typeData.damage_relations.no_damage_from),
                 noDamageTo: this.damageRelationAPIToTypeDamageRelation(typeData.damage_relations.no_damage_to),
             },
-            pokemons: pokemonsAPIData,
-            moves: movesAPIData,
+            pokemons: pokemonsDetails,
+            moves: movesDetails,
         }
     }
 }

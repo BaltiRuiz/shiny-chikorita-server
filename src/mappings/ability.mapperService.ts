@@ -18,14 +18,14 @@ export class AbilityMapperService extends MapperService {
         }
     }
 
-    public mapAbilityAPIToAbilityData(abilityAPIData: any, pokemonsAPIData: IAbilityPokemon[]): IAbilityData {
+    public mapAbilityAPIToAbilityData(abilityAPIData: any, pokemonsDetails: IAbilityPokemon[]): IAbilityData {
         return {
             id: abilityAPIData.id,
             name: abilityAPIData.name,
             generation: abilityAPIData.generation.name,
             shortDescription: this.getEntryByLanguage(abilityAPIData.effect_entries, Languages.EN, "short_effect"),
             description: this.getEntryByLanguage(abilityAPIData.effect_entries, Languages.EN, "effect"),
-            pokemons: pokemonsAPIData,
+            pokemons: pokemonsDetails,
         }
     }
 }

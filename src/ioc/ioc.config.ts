@@ -6,6 +6,7 @@ import { IDependency } from "./ioc.interfaces";
 
 import { PokemonInteractor } from "../interactors/pokemon.interactors";
 import { TypeInteractor } from "../interactors/type.interactors";
+import { MoveInteractor } from "../interactors/move.interactors";
 import { AbilityInteractor } from "../interactors/ability.interactors";
 
 import { ResourceRepository } from "../adapters/resource.adapters";
@@ -13,6 +14,7 @@ import { ResourceRepository } from "../adapters/resource.adapters";
 import { PokemonMapperService } from "../mappings/pokemon.mapperService";
 import { TypeMapperService } from "../mappings/type.mapperService";
 import { AbilityMapperService } from "../mappings/ability.mapperService";
+import { MoveMapperService } from "../mappings/move.mapperService";
 
 /**
  * IoC definition
@@ -37,6 +39,12 @@ export const IoCConfiguration: IDependency[] = [
         type: DependencyType.ClassOrService,
     },
     {
+        name: DIKeys.MoveInteractor,
+        instance: MoveInteractor,
+        lifetime: Lifetime.SINGLETON,
+        type: DependencyType.ClassOrService,
+    },
+    {
         name: DIKeys.AbilityInteractor,
         instance: AbilityInteractor,
         lifetime: Lifetime.SINGLETON,
@@ -57,6 +65,12 @@ export const IoCConfiguration: IDependency[] = [
     {
         name: DIKeys.TypeMapperService,
         instance: TypeMapperService,
+        lifetime: Lifetime.SINGLETON,
+        type: DependencyType.ClassOrService,
+    },
+    {
+        name: DIKeys.MoveMapperService,
+        instance: MoveMapperService,
         lifetime: Lifetime.SINGLETON,
         type: DependencyType.ClassOrService,
     },

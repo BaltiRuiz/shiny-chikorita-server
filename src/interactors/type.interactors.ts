@@ -72,12 +72,12 @@ export class TypeInteractor extends ResourceInteractor {
             const typeAPIData = await this.ResourceRepository.getResourceByID(APIResource.Type, typeID);
 
             const relatedPokemons = typeAPIData.pokemon.map((pokemon: any) => pokemon.pokemon.name);
-            const pokemonsAPIData = await this.getPokemonsDetails(relatedPokemons);
+            const pokemonsDetails = await this.getPokemonsDetails(relatedPokemons);
 
             const relatedMoves = typeAPIData.moves.map((move: any) => move.name);
-            const movesAPIData = await this.getMovesDetails(relatedMoves);
+            const movesDetails = await this.getMovesDetails(relatedMoves);
 
-            typeData = this.TypeMapperService.mapTypeAPIToTypeData(typeAPIData, pokemonsAPIData, movesAPIData);
+            typeData = this.TypeMapperService.mapTypeAPIToTypeData(typeAPIData, pokemonsDetails, movesDetails);
         } catch (error) {
             statusCode = error.response.status;
         }
