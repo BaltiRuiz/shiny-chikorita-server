@@ -14,10 +14,17 @@ export enum DIKeys {
     MoveInteractor = "move",
     AbilityInteractor = "ability",
 
-    ResourceRepository = "ResourceRepository",
+    AbilityRepository = "AbilityRepository",
+    MoveRepository = "MoveRepository",
+    TypeRepository = "TypeRepository",
+    PokemonRepository = "PokemonRepository",
+
+    ResourceService = "ResourceService",
 
     PokemonMapperService = "PokemonMapperService",
     TypeMapperService = "TypeMapperService",
     MoveMapperService = "MoveMapperService",
     AbilityMapperService = "AbilityMapperService",
+
+    LoggingService = "LoggingService",
 }

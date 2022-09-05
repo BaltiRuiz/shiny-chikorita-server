@@ -7,7 +7,7 @@ export class TypeMapperService extends MapperService {
         return damageRelation.map((type: any) => type.name);
     }
 
-    public mapPokemonAPIToTypePokemon(pokemonAPIData: any): ITypePokemon {
+    private mapPokemonAPIToTypePokemon(pokemonAPIData: any): ITypePokemon {
         return {
             id: pokemonAPIData.id,
             name: pokemonAPIData.name,
@@ -17,7 +17,7 @@ export class TypeMapperService extends MapperService {
         }
     }
 
-    public mapMoveAPIToTypeMove(moveAPIData: any): ITypeMove {
+    private mapMoveAPIToTypeMove(moveAPIData: any): ITypeMove {
         return {
             id: moveAPIData.id,
             name: moveAPIData.name,
@@ -28,20 +28,30 @@ export class TypeMapperService extends MapperService {
         }
     }
 
-    public mapTypeAPIToTypeData(typeData: any, pokemonsDetails: ITypePokemon[], movesDetails: ITypeMove[]): ITypeData {
+    public mapResourceAPIToApplicationData(resourceAPIData: any): ITypeData {
+        const { typeAPIData, relatedPokemonsAPIData, relatedMovesAPIData } = resourceAPIData;
+
+        const relatedPokemonsDetails = relatedPokemonsAPIData.map(
+            (relatedPokemonAPIData: any) => this.mapPokemonAPIToTypePokemon(relatedPokemonAPIData)
+        );
+
+        const relatedMovesDetails = relatedMovesAPIData.map(
+            (relatedMoveAPIData: any) => this.mapMoveAPIToTypeMove(relatedMoveAPIData)
+        );
+
         return {
-            id: typeData.id,
-            name: typeData.name,
+            id: typeAPIData.id,
+            name: typeAPIData.name,
             damageRelations: {
-                doubleDamageFrom: this.damageRelationAPIToTypeDamageRelation(typeData.damage_relations.double_damage_from),
-                doubleDamageTo: this.damageRelationAPIToTypeDamageRelation(typeData.damage_relations.double_damage_to),
-                halfDamageFrom: this.damageRelationAPIToTypeDamageRelation(typeData.damage_relations.half_damage_from),
-                halfDamageTo: this.damageRelationAPIToTypeDamageRelation(typeData.damage_relations.half_damage_to),
-                noDamageFrom: this.damageRelationAPIToTypeDamageRelation(typeData.damage_relations.no_damage_from),
-                noDamageTo: this.damageRelationAPIToTypeDamageRelation(typeData.damage_relations.no_damage_to),
+                doubleDamageFrom: this.damageRelationAPIToTypeDamageRelation(typeAPIData.damage_relations.double_damage_from),
+                doubleDamageTo: this.damageRelationAPIToTypeDamageRelation(typeAPIData.damage_relations.double_damage_to),
+                halfDamageFrom: this.damageRelationAPIToTypeDamageRelation(typeAPIData.damage_relations.half_damage_from),
+                halfDamageTo: this.damageRelationAPIToTypeDamageRelation(typeAPIData.damage_relations.half_damage_to),
+                noDamageFrom: this.damageRelationAPIToTypeDamageRelation(typeAPIData.damage_relations.no_damage_from),
+                noDamageTo: this.damageRelationAPIToTypeDamageRelation(typeAPIData.damage_relations.no_damage_to),
             },
-            pokemons: pokemonsDetails,
-            moves: movesDetails,
+            pokemons: relatedPokemonsDetails,
+            moves: relatedMovesDetails,
         }
     }
 }

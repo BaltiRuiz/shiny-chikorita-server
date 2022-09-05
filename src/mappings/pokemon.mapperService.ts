@@ -70,7 +70,9 @@ export class PokemonMapperService extends MapperService {
         return spritesMap;
     }
 
-    public mapPokemonAPIToPokemonData(pokemonAPIData: any, speciesAPIData: any, abilitiesAPIData: any): IPokemonData {
+    public mapResourceAPIToApplicationData(resourceAPIData: any): IPokemonData {
+        const { pokemonAPIData, speciesAPIData, abilitiesAPIData } = resourceAPIData;
+
         const description = this.getEntryByLanguage(speciesAPIData.flavor_text_entries, Languages.EN, "flavor_text");
 
         return {

@@ -5,7 +5,7 @@ import { IAbilityData, IAbilityPokemon } from "../interfaces/ability.interfaces"
 import { Languages } from "../enums/languages.enums";
 
 export class AbilityMapperService extends MapperService {
-    public mapPokemonAPIToAbilityPokemon(pokemonAPIData: any): IAbilityPokemon {
+    private mapPokemonAPIToAbilityPokemon(pokemonAPIData: any): IAbilityPokemon {
         return {
             id: pokemonAPIData.id,
             name: pokemonAPIData.name,
@@ -18,14 +18,20 @@ export class AbilityMapperService extends MapperService {
         }
     }
 
-    public mapAbilityAPIToAbilityData(abilityAPIData: any, pokemonsDetails: IAbilityPokemon[]): IAbilityData {
+    public mapResourceAPIToApplicationData(resourceAPIData: any): IAbilityData {
+        const { abilityAPIData, relatedPokemonsAPIData } = resourceAPIData;
+
+        const relatedPokemonsDetails = relatedPokemonsAPIData.map(
+            (relatedPokemonAPIData: any) => this.mapPokemonAPIToAbilityPokemon(relatedPokemonAPIData)
+        );
+
         return {
             id: abilityAPIData.id,
             name: abilityAPIData.name,
             generation: abilityAPIData.generation.name,
             shortDescription: this.getEntryByLanguage(abilityAPIData.effect_entries, Languages.EN, "short_effect"),
             description: this.getEntryByLanguage(abilityAPIData.effect_entries, Languages.EN, "effect"),
-            pokemons: pokemonsDetails,
-        }
+            pokemons: relatedPokemonsDetails,
+        } 
     }
 }

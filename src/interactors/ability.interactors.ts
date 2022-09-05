@@ -1,74 +1,30 @@
 import { ResourceInteractor } from "./resource.interactors";
 
+import { AbilityRepository } from "../adapters/ability.adapters";
+
 import { AbilityMapperService } from "../mappings/ability.mapperService";
 
-import { APIResource } from "../enums/api.enums";
+import { LoggingService } from "../log/loggingService";
 
-import { IResourceRepository } from "../ports/resource.ports";
+import { APIResource } from "../enums/api.enums";
 
 export class AbilityInteractor extends ResourceInteractor {
     /**
      * Creates an instance of AbilityInteractor
      *
-     * @param {IResourceRepository} ResourceRepository
+     * @param {AbilityRepository} AbilityRepository
      * @param {AbilityMapperService} AbilityMapperService
+     * @param {LoggingService} LoggingService
      * 
      * @memberof AbilityInteractor
      */
     constructor(
-        private ResourceRepository: IResourceRepository,
+        private AbilityRepository: AbilityRepository,
         private AbilityMapperService: AbilityMapperService,
+        private LoggingService: LoggingService,
     ) {
-        super(ResourceRepository, AbilityMapperService);
-    }
+        super(AbilityRepository, AbilityMapperService, LoggingService);
 
-    /**
-     * Retrieves detailed information about the pokemons related with an ability
-     *
-     * @param {string[]} pokemonsNames
-     * 
-     * @memberof AbilityInteractor
-     */
-    private async getPokemonsDetails(pokemonsNames: string[]) {
-        const promises = pokemonsNames.map(async (pokemonName: string) => {
-            return await this.ResourceRepository.getResourceByID(APIResource.Pokemon, pokemonName);
-        });
-
-        const promisesResults = await Promise.all(promises);
-
-        return promisesResults.map((promiseResult: any) => this.AbilityMapperService.mapPokemonAPIToAbilityPokemon(promiseResult));
-    }
-
-    /**
-     * Retrieves a specific type given its corresponding ID or name
-     *
-     * @param {string} abilityID
-     * 
-     * @memberof AbilityInteractor
-     */
-    public async getResource(abilityID: string) {
-        console.log(`Retrieving Ability with name or ID: ${abilityID}`);
-
-        let abilityData = null;
-        let statusCode = 200;
-
-        try {
-            const abilityAPIData = await this.ResourceRepository.getResourceByID(APIResource.Ability, abilityID);
-
-            const relatedPokemons = abilityAPIData.pokemon.map((pokemon: any) => pokemon.pokemon.name);
-            const pokemonsDetails = await this.getPokemonsDetails(relatedPokemons);
-
-            abilityData = this.AbilityMapperService.mapAbilityAPIToAbilityData(abilityAPIData, pokemonsDetails);
-        } catch (error) {
-            statusCode = error.response.status;
-        }
-
-        return {
-            statusCode,
-            result: {
-                data: abilityData,
-                message: this.AbilityMapperService.mapErrorAPIToResourceError(statusCode, APIResource.Ability, abilityID),
-            }
-        }
+        this.resourceType = APIResource.Ability;
     }
 }

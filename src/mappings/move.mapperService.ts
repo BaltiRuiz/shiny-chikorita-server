@@ -8,14 +8,14 @@ export class MoveMapperService extends MapperService {
         return effectChance ? description.replace("$effect_chance", effectChance.toString()) : description;
     }
 
-    public mapMoveTargetAPIToMoveTarget(moveTargetAPIData: any): IMoveTarget {
+    private mapMoveTargetAPIToMoveTarget(moveTargetAPIData: any): IMoveTarget {
         return {
             name: moveTargetAPIData.name,
             description: this.getEntryByLanguage(moveTargetAPIData.descriptions, Languages.EN, "description"),
         }
     }
 
-    public mapPokemonAPIToMovePokemon(pokemonAPIData: any): IMovePokemon {
+    private mapPokemonAPIToMovePokemon(pokemonAPIData: any): IMovePokemon {
         return {
             id: pokemonAPIData.id,
             name: pokemonAPIData.name,
@@ -25,7 +25,14 @@ export class MoveMapperService extends MapperService {
         }
     }
 
-    public mapMoveAPIToMoveData(moveAPIData: any, targetDetails: IMoveTarget, pokemonsDetails: IMovePokemon[]): IMoveData {
+    public mapResourceAPIToApplicationData(resourceAPIData: any): IMoveData {
+        const { moveAPIData, moveTargetAPIData, relatedPokemonsAPIData } = resourceAPIData;
+
+        const moveTargetDetails = this.mapMoveTargetAPIToMoveTarget(moveTargetAPIData);
+        const relatedPokemonsDetails = relatedPokemonsAPIData.map(
+            (relatedPokemonAPIData: any) => this.mapPokemonAPIToMovePokemon(relatedPokemonAPIData)
+        );
+
         const effectChance = moveAPIData.effect_chance;
         const effectDescriptionAPI = this.getEntryByLanguage(moveAPIData.effect_entries, Languages.EN, "effect");
         const description = this.getEntryByLanguage(moveAPIData.flavor_text_entries, Languages.EN, "flavor_text");
@@ -39,12 +46,12 @@ export class MoveMapperService extends MapperService {
             power: moveAPIData.power,
             pp: moveAPIData.pp,
             accuracy: moveAPIData.accuracy,
-            target: targetDetails,
+            target: moveTargetDetails,
             effectChance,
             effectDescription: this.replaceDescriptionSpecialCharacters(effectDescriptionAPI, effectChance),
             description: description.replace(String.fromCharCode(12), " "),    // Removes special character returned by the API
             contestType: moveAPIData.contest_type.name,
-            pokemons: pokemonsDetails,
+            pokemons: relatedPokemonsDetails,
         }
     }
 }
